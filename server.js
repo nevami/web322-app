@@ -23,22 +23,25 @@ app.get("/about", (req, res) => {
     res.sendFile(__dirname + "/views/about.html");
 });
 
-// Route: Get all published items (i.e., for "/shop")
+// Route: Get all published items (for "/shop")
 app.get("/shop", (req, res) => {
-    const publishedItems = storeService.getPublishedItems();
-    res.json(publishedItems);
+    storeService.getPublishedItems()
+        .then(items => res.json(items))  // Send data if successful
+        .catch(err => res.status(404).json({ message: err }));  // Send error if failed
 });
 
 // Route: Get all items (for "/items")
 app.get("/items", (req, res) => {
-    const allItems = storeService.getAllItems();
-    res.json(allItems);
+    storeService.getAllItems()
+        .then(items => res.json(items))  // Send data if successful
+        .catch(err => res.status(404).json({ message: err }));  // Send error if failed
 });
 
 // Route: Get all categories (for "/categories")
 app.get("/categories", (req, res) => {
-    const allCategories = storeService.getAllCategories();
-    res.json(allCategories);
+    storeService.getCategories()
+        .then(categories => res.json(categories))  // Send data if successful
+        .catch(err => res.status(404).json({ message: err }));  // Send error if failed
 });
 
 // Route: Handle 404 (No Matching Route)
