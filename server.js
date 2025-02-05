@@ -23,30 +23,36 @@ app.get("/about", (req, res) => {
     res.sendFile(__dirname + "/views/about.html");
 });
 
-// ✅ Route: Get all published items (i.e., for "/shop")
+// Route: Get all published items (i.e., for "/shop")
 app.get("/shop", (req, res) => {
     const publishedItems = storeService.getPublishedItems();
     res.json(publishedItems);
 });
 
-// ✅ Route: Get all items (for "/items")
+// Route: Get all items (for "/items")
 app.get("/items", (req, res) => {
     const allItems = storeService.getAllItems();
     res.json(allItems);
 });
 
-// ✅ Route: Get all categories (for "/categories")
+// Route: Get all categories (for "/categories")
 app.get("/categories", (req, res) => {
     const allCategories = storeService.getAllCategories();
     res.json(allCategories);
 });
 
-// ✅ Route: Handle 404 (No Matching Route)
+// Route: Handle 404 (No Matching Route)
 app.use((req, res) => {
     res.status(404).send("Page Not Found");
 });
 
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
-    console.log(`Express http server listening on port ${PORT}`);
-});
+// Initialize data and start the server only if successful
+storeService.initialize()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Express http server listening on port ${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error("Failed to initialize data:", err);
+    });
