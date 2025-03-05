@@ -11,6 +11,9 @@ GitHub Repository URL: https://github.com/nevami/web322-app
 
 ********************************************************************************/ 
 
+// Ensure 'path' module is included
+const path = require("path"); 
+
 // Import the Express module
 const express = require("express");
 
@@ -55,6 +58,11 @@ app.get("/categories", (req, res) => {
     storeService.getCategories()
         .then(categories => res.json(categories))  // Send data if successful
         .catch(err => res.status(404).json({ message: err }));  // Send error if failed
+});
+
+// Route: GET /items/add
+app.get("/items/add", (req, res) => {
+    res.sendFile(path.join(__dirname, "views/addItem.html"));
 });
 
 // Route: Handle 404 (No Matching Route)
