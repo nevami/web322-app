@@ -81,6 +81,44 @@ app.get("/items/add", (req, res) => {
     res.sendFile(path.join(__dirname, "views/addItem.html"));
 });
 
+// Route: POST /items/add
+app.post("/items/add", upload.single("featureImage"), (req, res) => {
+    if(req.file){
+        let streamUpload = (req) => {
+            return new Promise((resolve, reject) => {
+                let stream = cloudinary.uploader.upload_stream(
+                    (error, result) => {
+                        if (result) {
+                            resolve(result);
+                        } else {
+                            reject(error);
+                        }
+                    }
+                );
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });
+        };
+
+        async function upload(req) {
+            let result = await streamUpload(req);
+            console.log(result);
+            return result;
+        }
+
+        upload(req).then((uploaded)=>{
+            processItem(uploaded.url);
+        });
+    }else{
+        processItem("");
+    }
+ 
+    function processItem(imageUrl){
+        req.body.featureImage = imageUrl;
+        
+        // TODO: Process the req.body and add it as a new Item before redirecting to /items
+    }
+});
+
 // Route: Handle 404 (No Matching Route)
 app.use((req, res) => {
     res.status(404).send("Page Not Found");
