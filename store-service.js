@@ -65,5 +65,20 @@ function getCategories() {
     });
 }
 
+// Function to add a new item
+function addItem(itemData) {
+    return new Promise((resolve, reject) => {
+        if (!itemData.published) {
+            itemData.published = false;
+        } else {
+            itemData.published = true;
+        }
+        
+        itemData.id = items.length + 1; // Assign an ID based on array length
+        items.push(itemData); // Add new item to array
+        resolve(itemData);
+    });
+}
+
 // Export functions to be used in server.js
 module.exports = { initialize, getAllItems, getPublishedItems, getCategories };
