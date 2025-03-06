@@ -54,43 +54,6 @@ function getPublishedItems() {
     });
 }
 
-// Function to get items by category
-function getItemsByCategory(category) {
-    return new Promise((resolve, reject) => {
-        const filteredItems = items.filter(item => item.category == category);
-        if (filteredItems.length > 0) {
-            resolve(filteredItems);
-        } else {
-            reject("No results returned");
-        }
-    });
-}
-
-// Function to get items by minimum date
-function getItemsByMinDate(minDateStr) {
-    return new Promise((resolve, reject) => {
-        const filteredItems = items.filter(item => new Date(item.postDate) >= new Date(minDateStr));
-        if (filteredItems.length > 0) {
-            resolve(filteredItems);
-        } else {
-            reject("No results returned");
-        }
-    });
-}
-
-// Function to get an item by ID
-function getItemById(id) {
-    return new Promise((resolve, reject) => {
-        const foundItem = items.find(item => item.id == id);
-        if (foundItem) {
-            resolve(foundItem);
-        } else {
-            reject("No result returned");
-        }
-    });
-}
-
-
 // Function to get all categories
 function getCategories() {
     return new Promise((resolve, reject) => {
@@ -117,6 +80,41 @@ function addItem(itemData) {
     });
 }
 
+// Function to get items by category (Part 4 Step 1)
+function getItemsByCategory(category) {
+    return new Promise((resolve, reject) => {
+        const filteredItems = items.filter(item => item.category == category);
+        if (filteredItems.length > 0) {
+            resolve(filteredItems);
+        } else {
+            reject("No results returned");
+        }
+    });
+}
+
+// Function to get items by minimum date (Part 4 Step 2)
+function getItemsByMinDate(minDateStr) {
+    return new Promise((resolve, reject) => {
+        const filteredItems = items.filter(item => new Date(item.postDate) >= new Date(minDateStr));
+        if (filteredItems.length > 0) {
+            resolve(filteredItems);
+        } else {
+            reject("No results returned");
+        }
+    });
+}
+
+// Function to get an item by ID (Part 4 Step 3)
+function getItemById(id) {
+    return new Promise((resolve, reject) => {
+        const foundItem = items.find(item => item.id == id);
+        if (foundItem) {
+            resolve(foundItem);
+        } else {
+            reject("No result returned");
+        }
+    });
+}
+
 // Export functions to be used in server.js
 module.exports = { initialize, getAllItems, getPublishedItems, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById };
-        
