@@ -91,7 +91,15 @@ function addItem(itemData) {
         
         itemData.id = items.length + 1; // Assign an ID based on array length
         items.push(itemData); // Add new item to array
-        resolve(itemData);
+
+        // Write updated items array back to items.json
+        fs.writeFile("./data/items.json", JSON.stringify(items, null, 4), (err) => {
+            if (err) {
+                reject("Error saving item to file");
+                return;
+            }
+            resolve(itemData);
+        });
     });
 }
 
