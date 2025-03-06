@@ -63,10 +63,27 @@ app.get("/shop", (req, res) => {
 });
 
 // Route: Get all items (for "/items")
-app.get("/items", (req, res) => {
+/* app.get("/items", (req, res) => {
     storeService.getAllItems()
         .then(items => res.json(items))  // Send data if successful
         .catch(err => res.status(404).json({ message: err }));  // Send error if failed
+}); */
+
+// Route: Get all items (for "/items") with optional filters
+app.get("/items", (req, res) => {
+    if (req.query.category) {
+        storeService.getItemsByCategory(req.query.category)
+            .then(items => res.json(items))
+            .catch(err => res.status(404).json({ message: err }));
+    } else if (req.query.minDate) {
+        storeService.getItemsByMinDate(req.query.minDate)
+            .then(items => res.json(items))
+            .catch(err => res.status(404).json({ message: err }));
+    } else {
+        storeService.getAllItems()
+            .then(items => res.json(items))
+            .catch(err => res.status(404).json({ message: err }));
+    }
 });
 
 // Route: Get all categories (for "/categories")
