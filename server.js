@@ -112,11 +112,17 @@ app.post("/items/add", upload.single("featureImage"), (req, res) => {
         processItem("");
     }
  
+    /* function processItem(imageUrl){
+        req.body.featureImage = imageUrl; */
+        
+    // TODO: Process the req.body and add it as a new Item before redirecting to /items
     function processItem(imageUrl){
         req.body.featureImage = imageUrl;
-        
-        // TODO: Process the req.body and add it as a new Item before redirecting to /items
+        storeService.addItem(req.body)
+            .then(() => res.redirect("/items"))
+            .catch(err => res.status(500).json({ message: "Error adding item" }));
     }
+    
 });
 
 // Route: Handle 404 (No Matching Route)
