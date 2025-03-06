@@ -20,6 +20,22 @@ const express = require("express");
 // Import the store-service.js module
 const storeService = require("./store-service"); 
 
+// Import the three modules
+const multer = require("multer");
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
+
+// Cloudinary configuration
+cloudinary.config({
+    cloud_name: 'dteikdexl',
+    api_key: '872444824979794',
+    api_secret: 'e3tf6Zqup84hUTkiWXAjBgF1CNM',
+    secure: true
+});
+
+// Create an upload variable (no disk storage)
+const upload = multer();
+
 // Create Express app
 const app = express();
 
