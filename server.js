@@ -98,6 +98,13 @@ app.get("/items/add", (req, res) => {
     res.sendFile(path.join(__dirname, "views/addItem.html"));
 });
 
+// Route: GET /item/:id
+app.get("/item/:id", (req, res) => {
+    storeService.getItemById(req.params.id)
+        .then(item => res.json(item))
+        .catch(err => res.status(404).json({ message: err }));
+});
+
 // Route: POST /items/add
 app.post("/items/add", upload.single("featureImage"), (req, res) => {
     if(req.file){
