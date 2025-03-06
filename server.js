@@ -1,15 +1,17 @@
 /*********************************************************************************
-
-WEB322 – Assignment 02
-I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part *  of this assignment has been copied manually or electronically from any other source (including 3rd party web sites) or distributed to other students.
-
-Name: Wing Zee Chan 
-Student ID: 180683237 
-Date: Feb-5-2025
-Render Web App URL: https://web322-app-rli5.onrender.com
-GitHub Repository URL: https://github.com/nevami/web322-app
-
+*  WEB322 – Assignment 03
+*  I declare that this assignment is my own work in accordance with Seneca Academic Policy.  No part 
+*  of this assignment has been copied manually or electronically from any other source 
+*  (including 3rd party web sites) or distributed to other students.
+* 
+*  Name: Wing Zee Chan   Student ID: 180683237   Date: 2025-Mar-05
+*
+*  Render Web App URL: https://web322-app-rli5.onrender.com
+* 
+*  GitHub Repository URL: https://nevami.github.io/web322-app/
+*
 ********************************************************************************/ 
+
 
 // Ensure 'path' module is included
 const path = require("path"); 
