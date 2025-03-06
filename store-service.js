@@ -119,3 +119,4 @@ function addItem(itemData) {
 
 // Export functions to be used in server.js
 module.exports = { initialize, getAllItems, getPublishedItems, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById };
+        

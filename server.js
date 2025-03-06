@@ -81,7 +81,7 @@ app.get("/items", (req, res) => {
             .catch(err => res.status(404).json({ message: err }));
     } else {
         storeService.getAllItems()
-            .then(items => res.json(items))
+            .then(items => res.json(items)) 
             .catch(err => res.status(404).json({ message: err }));
     }
 });
