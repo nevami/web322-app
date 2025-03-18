@@ -12,6 +12,7 @@
 *
 ********************************************************************************/ 
 
+const exphbs = require("express-handlebars");
 
 // Ensure 'path' module is included
 const path = require("path"); 
@@ -46,6 +47,9 @@ const PORT = process.env.PORT || 8080;
 
 // Use Express static middleware to serve static files from the "public" folder
 app.use(express.static("public"));
+
+app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 // Define the "/" route to redirect to "/about"
 app.get("/", (req, res) => {
