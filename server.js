@@ -58,7 +58,7 @@ app.get("/", (req, res) => {
 
 // Define the "/about" route to serve the about.html file
 app.get("/about", (req, res) => {
-    res.sendFile(__dirname + "/views/about.html");
+    res.render("about");
 });
 
 // Route: Get all published items (for "/shop")
