@@ -101,7 +101,7 @@ app.get("/categories", (req, res) => {
 
 // Route: GET /items/add
 app.get("/items/add", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/addItem.html"));
+    res.render("addItem");
 });
 
 // Route: GET /item/:id
