@@ -48,8 +48,35 @@ const PORT = process.env.PORT || 8080;
 // Use Express static middleware to serve static files from the "public" folder
 app.use(express.static("public"));
 
-app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
+// Define Handlebars Helpers **before initializing Handlebars**
+const hbs = exphbs.create({
+    extname: ".hbs",
+    helpers: {
+        navLink: function(url, options) {
+            return `<li class="nav-item">
+                <a class="nav-link ${url == app.locals.activeRoute ? "active" : ""}" href="${url}">${options.fn(this)}</a>
+            </li>`;
+        },
+        equal: function(lvalue, rvalue, options) {
+            if (!options || typeof options.fn !== "function" || typeof options.inverse !== "function") {
+                console.error("Handlebars Helper 'equal' expects three arguments but received:", arguments);
+                return "";
+            }
+            return (lvalue == rvalue) ? options.fn(this) : options.inverse(this);
+        }
+    }
+});
+
+app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
+
+// Middleware to track active route
+app.use(function(req, res, next) {
+    let route = req.path.substring(1);
+    app.locals.activeRoute = "/" + (isNaN(route.split('/')[1]) ? route.replace(/\/(?!.*)/, "") : route.replace(/\/(.*)/, ""));
+    app.locals.viewingCategory = req.query.category;
+    next();
+});
 
 // Define the "/" route to redirect to "/about"
 app.get("/", (req, res) => {
