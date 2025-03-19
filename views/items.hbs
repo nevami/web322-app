@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-md-12">
+          <h2>Items</h2>
+          <hr />
+            {{#if items}}
+                <ul>
+                    {{#each items}}
+                        <li>{{this.title}}</li>
+                    {{/each}}
+                </ul>
+            {{else}}
+                <p>No items found.</p>
+            {{/if}}
+    </div>
+</div>

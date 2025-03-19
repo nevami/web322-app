@@ -114,9 +114,17 @@ app.get("/items", (req, res) => {
             .catch(err => res.status(404).json({ message: err }));
     } else {
         storeService.getAllItems()
-            .then(items => res.json(items)) 
-            .catch(err => res.status(404).json({ message: err }));
-    }
+            .then(items => {
+                if (items.length > 0) {
+                    res.render("items", { items: items });
+                } else {
+                    res.render("items", { message: "No items found." });
+                }
+            })
+            .catch(err => {
+                res.render("items", { message: "No results." });
+            });
+    };
 });
 
 // Route: Get all categories (for "/categories")
