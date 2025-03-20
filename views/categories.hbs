@@ -15,15 +15,18 @@
                     <tbody>
                         {{#each categories}}
                         <tr>
-                            <td>{{this.id}}</td>
-                            <td>{{this.name}}</td>
+                        <td><a href="/items?category={{this.id}}">{{this.id}}</a></td>
+                        <td><a href="/items?category={{this.id}}">{{this.category}}</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
-        {{else}}
-            <p>No categories available.</p>
-        {{/if}}
+       {{/if}}
     </div>
+        {{#unless categories.length}}
+        <div class="col-md-12 text-center">
+            <strong>{{message}}</strong>
+        </div>
+        {{/unless}}
 </div>

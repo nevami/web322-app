@@ -123,6 +123,7 @@ app.get("/items", (req, res) => {
 app.get("/categories", (req, res) => {
     storeService.getCategories()
     .then(categories => {
+        console.log("Categories sent to Handlebars:", categories); // Debugging log
         res.render("categories", { categories: categories });
     })  // Send data if successful
     .catch(err => {

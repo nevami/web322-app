@@ -72,6 +72,7 @@ function getPublishedItems() {
 // Function to get all categories
 function getCategories() {
     return new Promise((resolve, reject) => {
+        console.log("Loaded categories:", categories); // Debugging log
         if (categories.length > 0) {
             resolve(categories);
         } else {
