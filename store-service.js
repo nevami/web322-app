@@ -102,6 +102,10 @@ function addItem(itemData) {
         }
         
         itemData.id = items.length + 1; // Assign an ID based on array length
+
+        // Set postDate to current date (YYYY-MM-DD format)
+        itemData.postDate = new Date().toISOString().split("T")[0];
+
         items.push(itemData); // Add new item to array
 
         // Write updated items array back to items.json

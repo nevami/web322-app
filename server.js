@@ -84,7 +84,7 @@ app.use(function(req, res, next) {
 
 // Define the "/" route to redirect to "/about"
 app.get("/", (req, res) => {
-    res.redirect("/about");
+    res.redirect("/shop");
 });
 
 // Define the "/about" route to serve the about.html file
@@ -120,6 +120,33 @@ app.get("/shop", (req, res) => {
         })
         .catch(err => {
             viewData.message = "No results";
+            res.render("shop", { data: viewData });
+        });
+});
+
+// Route: Get a specific item by ID (for "/shop/:id")
+app.get("/shop/:id", (req, res) => {
+    let viewData = {};
+
+    // Step 1: Retrieve the specific post by ID
+    storeService.getItemById(req.params.id)
+        .then(post => {
+            if (!post) {
+                throw new Error("Post not found");
+            }
+            viewData.post = post;
+            return storeService.getPublishedItemsByCategory(req.query.category || post.category);
+        })
+        .then(items => {
+            viewData.posts = items; // Store related items
+            return storeService.getCategories();
+        })
+        .then(categories => {
+            viewData.categories = categories; // Store all categories
+            res.render("shop", { data: viewData });
+        })
+        .catch(err => {
+            viewData.message = "No results found";
             res.render("shop", { data: viewData });
         });
 });
@@ -218,7 +245,7 @@ app.post("/items/add", upload.single("featureImage"), (req, res) => {
 
 // Route: Handle 404 (No Matching Route)
 app.use((req, res) => {
-    res.status(404).send("Page Not Found");
+    res.status(404).render("404");
 });
 
 // Initialize data and start the server only if successful
