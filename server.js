@@ -122,8 +122,12 @@ app.get("/items", (req, res) => {
 // Route: Get all categories (for "/categories")
 app.get("/categories", (req, res) => {
     storeService.getCategories()
-        .then(categories => res.json(categories))  // Send data if successful
-        .catch(err => res.status(404).json({ message: err }));  // Send error if failed
+    .then(categories => {
+        res.render("categories", { categories: categories });
+    })  // Send data if successful
+    .catch(err => {
+        res.render("categories", { message: "No categories available." });
+    });
 });
 
 // Route: GET /items/add
@@ -196,4 +200,4 @@ storeService.initialize()
     })
     .catch(err => {
         console.error("Failed to initialize data:", err);
-    });
+    })
