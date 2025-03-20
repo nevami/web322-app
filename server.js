@@ -106,25 +106,17 @@ app.get("/shop", (req, res) => {
 app.get("/items", (req, res) => {
     if (req.query.category) {
         storeService.getItemsByCategory(req.query.category)
-            .then(items => res.json(items))
-            .catch(err => res.status(404).json({ message: err }));
+            .then(items => res.render("items", { items: items }))
+            .catch(err => res.render("items", { message: "No items available." }));
     } else if (req.query.minDate) {
         storeService.getItemsByMinDate(req.query.minDate)
-            .then(items => res.json(items))
-            .catch(err => res.status(404).json({ message: err }));
+            .then(items => res.render("items", { items: items }))
+            .catch(err => res.render("items", { message: "No items available." }));
     } else {
         storeService.getAllItems()
-            .then(items => {
-                if (items.length > 0) {
-                    res.render("items", { items: items });
-                } else {
-                    res.render("items", { message: "No items found." });
-                }
-            })
-            .catch(err => {
-                res.render("items", { message: "No results." });
-            });
-    };
+            .then(items => res.render("items", { items: items }))
+            .catch(err => res.render("items", { message: "No items available." }));
+    }
 });
 
 // Route: Get all categories (for "/categories")
