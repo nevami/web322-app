@@ -69,6 +69,17 @@ function getPublishedItems() {
     });
 }
 
+function getPublishedItemsByCategory(category) {
+    return new Promise((resolve, reject) => {
+        const filteredItems = items.filter(item => item.published === true && item.category == category);
+        if (filteredItems.length > 0) {
+            resolve(filteredItems);
+        } else {
+            reject("No results returned");
+        }
+    });
+}
+
 // Function to get all categories
 function getCategories() {
     return new Promise((resolve, reject) => {
@@ -141,4 +152,4 @@ function getItemById(id) {
 }
 
 // Export functions to be used in server.js
-module.exports = { initialize, getAllItems, getPublishedItems, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById };
+module.exports = { initialize, getAllItems, getPublishedItems, getPublishedItemsByCategory, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById };

@@ -13,6 +13,7 @@
 ********************************************************************************/ 
 
 const exphbs = require("express-handlebars");
+const Handlebars = require("handlebars"); // Import Handlebars for custom helpers
 
 // Ensure 'path' module is included
 const path = require("path"); 
@@ -63,6 +64,9 @@ const hbs = exphbs.create({
                 return "";
             }
             return (lvalue == rvalue) ? options.fn(this) : options.inverse(this);
+        },
+        safeHTML: function(context) {  //Added only the necessary change
+            return new Handlebars.SafeString(context);
         }
     }
 });
@@ -90,9 +94,34 @@ app.get("/about", (req, res) => {
 
 // Route: Get all published items (for "/shop")
 app.get("/shop", (req, res) => {
+    let viewData = {};
+
     storeService.getPublishedItems()
-        .then(items => res.json(items))  // Send data if successful
-        .catch(err => res.status(404).json({ message: err }));  // Send error if failed
+        .then(items => {
+            viewData.items = items;
+            if (req.query.category) {
+                return storeService.getPublishedItemsByCategory(req.query.category);
+            } else {
+                return storeService.getPublishedItems();
+            }
+        })
+        .then(filteredItems => {
+            viewData.posts = filteredItems;
+            if (filteredItems.length > 0) {
+                viewData.post = filteredItems[0];
+            } else {
+                viewData.message = "No results";
+            }
+            return storeService.getCategories();
+        })
+        .then(categories => {
+            viewData.categories = categories;
+            res.render("shop", { data: viewData });
+        })
+        .catch(err => {
+            viewData.message = "No results";
+            res.render("shop", { data: viewData });
+        });
 });
 
 // Route: Get all items (for "/items")
