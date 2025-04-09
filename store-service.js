@@ -19,6 +19,20 @@
 // let items = [];
 // let categories = [];
 
+const Sequelize = require('sequelize');
+
+var sequelize = new Sequelize('SenecaDB', 'SenecaDB_owner', 'npg_K7cF8qLjElCS', {
+    host: 'ep-wild-wildflower-a8fqgp9u-pooler.eastus2.azure.neon.tech',
+    dialect: 'postgres',
+    port: 5432,
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
+    query: { raw: true }
+});
+
 function initialize() {
     return new Promise((resolve, reject) => {
         reject(); // RETURN "EMPTY" PROMISE
