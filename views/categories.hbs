@@ -12,13 +12,15 @@
                         <tr>
                             <th>Category ID</th>
                             <th>Category Name</th>
+                            <th></th> <!-- to add remove button -->
                         </tr>
                     </thead>
                     <tbody>
                         {{#each categories}}
                         <tr>
-                        <td><a href="/items?category={{this.id}}">{{this.id}}</a></td>
-                        <td><a href="/items?category={{this.id}}">{{this.category}}</a></td>
+                            <td><a href="/items?category={{this.id}}">{{this.id}}</a></td>
+                            <td><a href="/items?category={{this.id}}">{{this.category}}</a></td>
+                            <td><a href="/categories/delete/{{this.id}}" class="btn btn-danger">Remove</a></td>
                         </tr>
                         {{/each}}
                     </tbody>

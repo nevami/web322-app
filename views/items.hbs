@@ -15,6 +15,7 @@
                             <th>Category</th>
                             <th>Price</th>
                             <th>Published</th>
+                            <th></th> <!-- to add remove button -->
                         </tr>
                     </thead>
                     <tbody>
@@ -26,6 +27,7 @@
                             <td><a href="/items?category={{this.categoryId}}">{{this.category}}</a></td>
                             <td>${{this.price}}</td>
                             <td>{{#if this.published}}Yes{{else}}No{{/if}}</td>
+                            <td><a href="/items/delete/{{this.id}}" class="btn btn-danger">Remove</a></td>
                         </tr>
                         {{/each}}
                     </tbody>
