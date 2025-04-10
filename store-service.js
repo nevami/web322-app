@@ -140,5 +140,40 @@ function getItemById(id) {
     });
 }
 
+function addCategory(categoryData) {
+    return new Promise((resolve, reject) => {
+        for (let prop in categoryData) {
+            if (categoryData[prop] === "") {
+                categoryData[prop] = null;
+            }
+        }
+
+        Category.create(categoryData)
+            .then(() => resolve())
+            .catch(() => reject("unable to create category"));
+    });
+}
+
+function deleteCategoryById(id) {
+    return new Promise((resolve, reject) => {
+        Category.destroy({
+            where: { id: id }
+        })
+        .then(() => resolve())
+        .catch(() => reject("unable to delete category"));
+    });
+}
+
+function deletePostById(id) {
+    return new Promise((resolve, reject) => {
+        Item.destroy({
+            where: { id: id }
+        })
+        .then(() => resolve())
+        .catch(() => reject("unable to delete post"));
+    });
+}
+
+
 // Export functions to be used in server.js
-module.exports = { initialize, getAllItems, getPublishedItems, getPublishedItemsByCategory, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById };
+module.exports = { initialize, getAllItems, getPublishedItems, getPublishedItemsByCategory, getCategories, addItem, getItemsByCategory, getItemsByMinDate, getItemById, addCategory, deleteCategoryById, deletePostById };
