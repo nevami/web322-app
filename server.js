@@ -1,10 +1,10 @@
 /*********************************************************************************
-*  WEB322 – Assignment 03
+*  WEB322 – Assignment 05
 *  I declare that this assignment is my own work in accordance with Seneca Academic Policy.  No part 
 *  of this assignment has been copied manually or electronically from any other source 
 *  (including 3rd party web sites) or distributed to other students.
 * 
-*  Name: Wing Zee Chan   Student ID: 180683237   Date: 2025-Mar-05
+*  Name: Wing Zee Chan   Student ID: 180683237   Date: 2025-Apr-09
 *
 *  Render Web App URL: https://web322-app-rli5.onrender.com
 * 
@@ -67,6 +67,12 @@ const hbs = exphbs.create({
         },
         safeHTML: function(context) {  //Added only the necessary change
             return new Handlebars.SafeString(context);
+        }
+        formatDate: function(dateObj){
+            let year = dateObj.getFullYear();
+            let month = (dateObj.getMonth() + 1).toString();
+            let day = dateObj.getDate().toString();
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2,'0')}`;
         }
     }
 });
