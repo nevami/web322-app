@@ -198,7 +198,9 @@ app.get("/categories", (req, res) => {
 
 // Route: GET /items/add
 app.get("/items/add", (req, res) => {
-    res.render("addItem");
+    storeService.getCategories()
+        .then(data => res.render("addItem", { categories: data }))
+        .catch(() => res.render("addItem", { categories: [] }));
 });
 
 // Route: GET /item/:id
