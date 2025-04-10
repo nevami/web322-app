@@ -262,6 +262,19 @@ app.post("/categories/add", (req, res) => {
         .catch(() => res.status(500).send("Unable to create category"));
 });
 
+app.get("/categories/delete/:id", (req, res) => {
+    storeService.deleteCategoryById(req.params.id)
+        .then(() => res.redirect("/categories"))
+        .catch(() => res.status(500).send("Unable to Remove Category / Category not found"));
+});
+
+app.get("/items/delete/:id", (req, res) => {
+    storeService.deletePostById(req.params.id)
+        .then(() => res.redirect("/items"))
+        .catch(() => res.status(500).send("Unable to Remove Post / Post not found"));
+});
+
+
 // Route: Handle 404 (No Matching Route)
 app.use((req, res) => {
     res.status(404).render("404");
