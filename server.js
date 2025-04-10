@@ -67,7 +67,7 @@ const hbs = exphbs.create({
         },
         safeHTML: function(context) {  //Added only the necessary change
             return new Handlebars.SafeString(context);
-        }
+        },
         formatDate: function(dateObj){
             let year = dateObj.getFullYear();
             let month = (dateObj.getMonth() + 1).toString();
@@ -169,28 +169,31 @@ app.get("/items", (req, res) => {
     if (req.query.category) {
         storeService.getItemsByCategory(req.query.category)
             .then(items => res.render("items", { items: items }))
-            .catch(err => res.render("items", { message: "No items available." }));
+            .catch(err => res.render("items", { message: "no results" }));
     } else if (req.query.minDate) {
         storeService.getItemsByMinDate(req.query.minDate)
             .then(items => res.render("items", { items: items }))
-            .catch(err => res.render("items", { message: "No items available." }));
+            .catch(err => res.render("items", { message: "no results" }));
     } else {
         storeService.getAllItems()
             .then(items => res.render("items", { items: items }))
-            .catch(err => res.render("items", { message: "No items available." }));
+            .catch(err => res.render("items", { message: "no results" }));
     }
 });
 
 // Route: Get all categories (for "/categories")
 app.get("/categories", (req, res) => {
     storeService.getCategories()
-    .then(categories => {
-        console.log("Categories sent to Handlebars:", categories); // Debugging log
-        res.render("categories", { categories: categories });
-    })  // Send data if successful
-    .catch(err => {
-        res.render("categories", { message: "No categories available." });
-    });
+        .then(categories => {
+            if (categories.length > 0) {
+                res.render("categories", { categories: categories });
+            } else {
+                res.render("categories", { message: "no results" });
+            }
+        })
+        .catch(err => {
+            res.render("categories", { message: "no results" });
+        });
 });
 
 // Route: GET /items/add
@@ -247,6 +250,16 @@ app.post("/items/add", upload.single("featureImage"), (req, res) => {
             .catch(err => res.status(500).json({ message: "Error adding item" }));
     }
     
+});
+
+app.get("/categories/add", (req, res) => {
+    res.render("addCategory");
+});
+
+app.post("/categories/add", (req, res) => {
+    storeService.addCategory(req.body)
+        .then(() => res.redirect("/categories"))
+        .catch(() => res.status(500).send("Unable to create category"));
 });
 
 // Route: Handle 404 (No Matching Route)
