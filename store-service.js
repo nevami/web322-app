@@ -51,57 +51,92 @@ Item.belongsTo(Category, { foreignKey: 'category' });
 
 function initialize() {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        sequelize.sync()
+        .then(() => resolve())
+        .catch(() => reject("unable to sync the database"));
     });
 }
 
 // Function to get all items
 function getAllItems() {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Item.findAll()
+        .then(data => resolve(data))
+        .catch(() => reject("no results returned"));
     });
 }
 
 // Function to get only published items
 function getPublishedItems() {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Item.findAll({ where: { published: true } })
+            .then(data => resolve(data))
+            .catch(() => reject("no results returned"));
     });
 }
 
 function getPublishedItemsByCategory(category) {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Item.findAll({ where: { published: true, category: category } })
+            .then(data => resolve(data))
+            .catch(() => reject("no results returned"));
     });
 }
 
 function getCategories() {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Category.findAll()
+            .then(data => resolve(data))
+            .catch(() => reject("no results returned"));
     });
 }
 
 function addItem(itemData) {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        itemData.published = (itemData.published) ? true : false;
+
+        for (let prop in itemData) {
+            if (itemData[prop] === "") {
+                itemData[prop] = null;
+            }
+        }
+
+        itemData.postDate = new Date();
+
+        Item.create(itemData)
+            .then(() => resolve())
+            .catch(() => reject("unable to create post"));
     });
 }
 
 function getItemsByCategory(category) {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Item.findAll({ where: { category: category } })
+            .then(data => resolve(data))
+            .catch(() => reject("no results returned"));
     });
 }
 
 function getItemsByMinDate(minDateStr) {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        const { gte } = Sequelize.Op;
+        Item.findAll({
+            where: {
+                postDate: {
+                    [gte]: new Date(minDateStr)
+                }
+            }
+        })
+        .then(data => resolve(data))
+        .catch(() => reject("no results returned"));
     });
 }
 
 function getItemById(id) {
     return new Promise((resolve, reject) => {
-        reject(); // RETURN "EMPTY" PROMISE
+        Item.findAll({ where: { id: id } })
+            .then(data => resolve(data[0]))
+            .catch(() => reject("no results returned"));
     });
 }
 
