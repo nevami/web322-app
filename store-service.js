@@ -134,24 +134,37 @@ function getItemsByMinDate(minDateStr) {
 
 function getItemById(id) {
     return new Promise((resolve, reject) => {
-        Item.findAll({ where: { id: id } })
-            .then(data => resolve(data[0]))
-            .catch(() => reject("no results returned"));
+        Item.findByPk(id, {
+            include: [Category]  // Include category relationship
+        })
+        .then(item => {
+            if (item) {
+                resolve(item);
+            } else {
+                reject("no result returned");
+            }
+        })
+        .catch(() => reject("no results returned"));
     });
 }
 
 function addCategory(categoryData) {
     return new Promise((resolve, reject) => {
-        for (let prop in categoryData) {
-            if (categoryData[prop] === "") {
-                categoryData[prop] = null;
-            }
+        if (!categoryData.category || categoryData.category.trim() === "") {
+            console.error("Rejecting empty category");
+            reject("Category name is required");
+            return;
         }
+
+        categoryData.category = categoryData.category.trim();
 
         Category.create(categoryData)
             .then(() => resolve())
-            .catch(() => reject("unable to create category"));
-    });
+            .catch((err) => {
+                console.error("CREATE ERROR:", err);
+                reject("unable to create category");    
+            }); 
+        });
 }
 
 function deleteCategoryById(id) {

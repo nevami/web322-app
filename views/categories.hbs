@@ -18,8 +18,10 @@
                     <tbody>
                         {{#each categories}}
                         <tr>
-                            <td><a href="/items?category={{this.id}}">{{this.id}}</a></td>
-                            <td><a href="/items?category={{this.id}}">{{this.category}}</a></td>
+                            {{!-- <td><a href="/items?category={{this.id}}">{{this.id}}</a></td> --}}
+                            {{!-- <td><a href="/items?category={{this.id}}">{{this.category}}</a></td> --}}
+                            <td>{{this.id}}</td>
+                            <td>{{this.category}}</td>
                             <td><a href="/categories/delete/{{this.id}}" class="btn btn-danger">Remove</a></td>
                         </tr>
                         {{/each}}

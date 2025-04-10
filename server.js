@@ -49,6 +49,9 @@ const PORT = process.env.PORT || 8080;
 // Use Express static middleware to serve static files from the "public" folder
 app.use(express.static("public"));
 
+app.use(express.urlencoded({ extended: true }));
+
+
 // Define Handlebars Helpers **before initializing Handlebars**
 const hbs = exphbs.create({
     extname: ".hbs",
@@ -185,6 +188,7 @@ app.get("/items", (req, res) => {
 app.get("/categories", (req, res) => {
     storeService.getCategories()
         .then(categories => {
+            console.log("Categories sent to view:", categories);
             if (categories.length > 0) {
                 res.render("categories", { categories: categories });
             } else {
@@ -259,10 +263,15 @@ app.get("/categories/add", (req, res) => {
 });
 
 app.post("/categories/add", (req, res) => {
+    console.log("Form submitted:", req.body);
     storeService.addCategory(req.body)
         .then(() => res.redirect("/categories"))
-        .catch(() => res.status(500).send("Unable to create category"));
+        .catch(err => {
+            console.error("POST error:", err);
+            res.status(500).send("Unable to create category");
+        });
 });
+
 
 app.get("/categories/delete/:id", (req, res) => {
     storeService.deleteCategoryById(req.params.id)
