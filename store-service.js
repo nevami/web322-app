@@ -33,6 +33,22 @@ var sequelize = new Sequelize('SenecaDB', 'SenecaDB_owner', 'npg_K7cF8qLjElCS', 
     query: { raw: true }
 });
 
+var Item = sequelize.define('Item', {
+    body: Sequelize.TEXT,
+    title: Sequelize.STRING,
+    postDate: Sequelize.DATE,
+    featureImage: Sequelize.STRING,
+    published: Sequelize.BOOLEAN,
+    price: Sequelize.DOUBLE
+});
+
+var Category = sequelize.define('Category', {
+    category: Sequelize.STRING
+});
+
+Item.belongsTo(Category, { foreignKey: 'category' });
+
+
 function initialize() {
     return new Promise((resolve, reject) => {
         reject(); // RETURN "EMPTY" PROMISE
