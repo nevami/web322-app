@@ -1,0 +1,23 @@
+<div class="container" style="padding-top: 90px;">
+  <h2>User Login History</h2>
+  {{#if session.loginHistory.length}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>User Agent</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each session.loginHistory}}
+          <tr>
+            <td>{{this.dateTime}}</td>
+            <td>{{this.userAgent}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>No login history found.</p>
+  {{/if}}
+</div>
